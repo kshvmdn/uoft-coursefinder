@@ -1,6 +1,12 @@
 const Nightmare = require('nightmare')
 const nightmare = Nightmare({ show: true })
 
+/**
+ * Perform a search and scrape the result.
+ * @param  {string}   url  URL for this query
+ * @param  {string}   term Search term
+ * @param  {Function} cb   Error-first callback
+ */
 function search (url, term, cb) {
   nightmare
     .goto(url)
@@ -12,21 +18,25 @@ function search (url, term, cb) {
         .slice(1)
         .map(th => th.innerText.trim().toLowerCase().replace(/ /g, '_'))
 
-      return [...document.querySelectorAll('#courseSearchResults tbody tr')].map(tr => {
+      let rows = document.querySelectorAll('#courseSearchResults tbody tr')
+
+      if (!headings || !headings.innerText || !rows || !rows.innerText) {
+        throw new Error('Failed to retrieve results.')
+      }
+
+      return [...rows].map(tr => {
         let current = {}
 
         ;[...tr.querySelectorAll('td')].slice(1).forEach((td, i) => {
-          let key = headings[i]
-
-          current[key] = td.innerText
+          current[headings[i]] = td.innerText
         })
 
         return current
       })
     })
     .end()
-    .then((result) => cb(null, result))
-    .catch((error) => cb(error))
+    .then(result => cb(null, result))
+    .catch(error => cb(error))
 }
 
 module.exports = exports = { search }

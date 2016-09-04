@@ -7,25 +7,32 @@
 const scraper = require('./utils/scraper')
 const BASE_URL = 'http://coursefinder.utoronto.ca'
 
+/**
+ * Perform a Course Finder search.
+ * @param  {string}   term  Term to search for.
+ * @param  {Function} cb    Optional error-first callback.
+ * @return {Promise}
+ */
 function search (term, cb) {
   return new Promise((resolve, reject) => {
     if (!term) {
       let e = new Error('Expected search term.')
-      cb(e)
+      if (cb) cb(e)
       reject(e)
       return
     }
 
     scraper.search(BASE_URL, term, (err, res) => {
-      if (err || !res) {
+      if (err || !res ) {
         let e = err || new Error('Failed to retrieve results')
-        cb(e)
+        if (cb) cb(e)
         reject(e)
         return
       }
 
-      cb(null, res)
-      return resolve(res)
+      if (cb) cb(null, res)
+      resolve(res)
+      return
     })
   })
 }
