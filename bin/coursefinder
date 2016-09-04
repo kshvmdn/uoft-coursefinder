@@ -29,4 +29,4 @@ if (!arg || ['-p', '--pretty', '-s', '--show'].includes(arg)) {
   handleErr(new Error(`Expected code or term as second argument, got \`${arg}\`.`))
 }
 
-coursefinder[func](arg).then(res => print(res)).catch(err => handleError(err))
+coursefinder[func](arg).then(res => print(res)).catch(err => handleErr(err))
