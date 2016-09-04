@@ -1,0 +1,32 @@
+#!/usr/bin/env node
+
+const prettyFormat = require('pretty-format')
+const coursefinder = require('./../')
+const argv = process.argv.slice(2)
+
+/**
+ * Print a string to the console, use prettyFormat if argv includes (-p|--pretty).
+ * @param  {string} str String to print
+ */
+const print = (str) => console.log(argv.includes('--pretty') || argv.includes('-p') ? prettyFormat(str) : str)
+
+/**
+ * Print the error message and exit.
+ * @param  {Object} err Error
+ */
+const handleErr = (err) => {
+  print(err.message)
+  process.exit(1)
+}
+
+let [func, arg] = argv
+
+if (!coursefinder.hasOwnProperty(func)) {
+  handleErr(new Error(`Unexpected function \`${func}\`. Run \`coursefinder --help\` for help.`))
+}
+
+if (!arg || ['-p', '--pretty', '-s', '--show'].includes(arg)) {
+  handleErr(new Error(`Expected code or term as second argument, got \`${arg}\`.`))
+}
+
+coursefinder[func](arg).then(res => print(res)).catch(err => handleError(err))

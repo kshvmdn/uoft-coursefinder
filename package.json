@@ -14,8 +14,11 @@
     "url": "git+https://github.com/kshvmdn/uoft-coursefinder.git"
   },
   "main": "index.js",
+  "bin": {
+    "coursefinder": "bin/coursefinder"
+  },
   "scripts": {
-    "lint": "eslint index.js utils",
+    "lint": "eslint bin/coursefinder index.js utils",
     "test": "npm run lint && mocha"
   },
   "engines": {
@@ -30,6 +33,7 @@
     "should": "^11.1.0"
   },
   "dependencies": {
-    "nightmare": "^2.6.1"
+    "nightmare": "^2.6.1",
+    "pretty-format": "^3.7.0"
   }
 }
