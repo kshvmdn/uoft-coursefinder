@@ -1,7 +1,9 @@
 const Nightmare = require('nightmare')
 
+const SHOW = process.argv.includes('--show') || process.argv.includes('-s')
+
 function inquiry (url, cb) {
-  const nightmare = Nightmare({ show: true, waitTimeout: 2500 })
+  const nightmare = Nightmare({ show: SHOW, waitTimeout: 2500 })
 
   nightmare
     .goto(url)
@@ -11,7 +13,7 @@ function inquiry (url, cb) {
 
       course.title = document.querySelector('.uif-headerText').innerText
 
-      ;[...document.querySelector('#u18_boxLayout').querySelectorAll('div')]
+      Array.from(document.querySelector('#u18_boxLayout').querySelectorAll('div'))
         .filter(div => div.getAttribute('data-label') !== null)
         .forEach(div => {
           let key = div.querySelector('label').innerText.toLowerCase().replace(/ /g, '_')
@@ -20,14 +22,14 @@ function inquiry (url, cb) {
           }
         })
 
-      let headings = [...document.querySelectorAll('#Activity-details table thead tr th')]
+      let headings = Array.from(document.querySelectorAll('#Activity-details table thead tr th'))
         .map(th => th.innerText.toLowerCase().replace(/ /g, '_'))
 
-      course.meeting_sections = [...document.querySelectorAll('#Activity-details table tbody tr')]
+      course.meeting_sections = Array.from(document.querySelectorAll('#Activity-details table tbody tr'))
         .map(tr => {
           let current = {}
 
-          ;[...tr.querySelectorAll('td')].forEach((td, i) => {
+          Array.from(tr.querySelectorAll('td')).forEach((td, i) => {
             let key = headings[i]
 
             let value = null
@@ -61,7 +63,7 @@ function inquiry (url, cb) {
  * @param  {Function} cb   Error-first callback
  */
 function search (url, term, cb) {
-  const nightmare = Nightmare({ show: true })
+  const nightmare = Nightmare({ show: SHOW })
 
   nightmare
     .goto(url)
@@ -69,20 +71,20 @@ function search (url, term, cb) {
     .click('form[action*="/courseSearch"] [id=searchForCourses]')
     .wait(1000)
     .evaluate(() => {
-      let headings = [...document.querySelectorAll('#courseSearchResults thead tr th')]
+      let headings = Array.from(document.querySelectorAll('#courseSearchResults thead tr th'))
         .slice(1)
         .map(th => th.innerText.trim().toLowerCase().replace(/ /g, '_'))
 
       let rows = document.querySelectorAll('#courseSearchResults tbody tr')
 
-      if (!headings || !headings.innerText || !rows || !rows.innerText) {
+      if (!rows || JSON.stringify(rows) === '{"0":{}}') {
         throw new Error('Failed to retrieve results.')
       }
 
-      return [...rows].map(tr => {
+      return Array.from(rows).map(tr => {
         let current = {}
 
-        ;[...tr.querySelectorAll('td')].slice(1).forEach((td, i) => {
+        Array.from(tr.querySelectorAll('td')).slice(1).forEach((td, i) => {
           current[headings[i]] = td.innerText
         })
 
