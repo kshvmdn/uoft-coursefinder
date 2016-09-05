@@ -221,21 +221,20 @@ const coursefinder = require('coursefinder')
 
   Arguments:
     method         coursefinder method to call (one of search / inquiry) [must be first]
-    argument       term / code to use with function [must be second]
+    argument       term / code to use with method [must be second]
     -h, --help     view this help dialog
     -p, --pretty   pretty print the JSON response
-    -s, --show     render a browser window and watch the scraping in action
+    -s, --show     render a browser window and watch the scraping as it happens
 
   Examples:
     coursefinder search csc207
     coursefinder search csc207 --pretty
     coursefinder search csc207 --show --pretty
-
   ```
 
   - Examples:
     
-    ```
+    ```sh
     $ coursefinder search csc207
     [ { campus: 'St. George',
         code: 'CSC207H1',
