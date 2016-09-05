@@ -1,8 +1,17 @@
 #!/usr/bin/env node
 
+const fs = require('fs')
+const path = require('path')
 const prettyFormat = require('pretty-format')
-const coursefinder = require('./../')
+
 const argv = process.argv.slice(2)
+const coursefinder = require('./../')
+const help = new Promise((resolve, reject) => {
+  fs.readFile(path.join(__dirname, '..', 'help.txt'), 'utf8', (err, data) => {
+    if (err) return reject(err)
+    resolve(data)
+  })
+})
 
 /**
  * Print a string to the console, use prettyFormat if argv includes (-p|--pretty).
@@ -19,14 +28,18 @@ const handleErr = (err) => {
   process.exit(1)
 }
 
-let [func, arg] = argv
+if (argv.includes('--help') || argv.includes('-h')) {
+  help.then(res => console.log(res)).catch(e => handleErr(e))
+} else {
+  let [func, arg] = argv
 
-if (!coursefinder.hasOwnProperty(func)) {
-  handleErr(new Error(`Unexpected function \`${func}\`. Run \`coursefinder --help\` for help.`))
+  if (!coursefinder.hasOwnProperty(func)) {
+    handleErr(new Error(`Unexpected function \`${func}\`. Run \`coursefinder --help\` for help.`))
+  }
+
+  if (!arg || ['-p', '--pretty', '-s', '--show'].includes(arg)) {
+    handleErr(new Error(`Expected code or term as second argument, got \`${arg}\`.`))
+  }
+
+  coursefinder[func](arg).then(res => print(res)).catch(err => handleErr(err))
 }
-
-if (!arg || ['-p', '--pretty', '-s', '--show'].includes(arg)) {
-  handleErr(new Error(`Expected code or term as second argument, got \`${arg}\`.`))
-}
-
-coursefinder[func](arg).then(res => print(res)).catch(err => handleErr(err))
