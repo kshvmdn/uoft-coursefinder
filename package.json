@@ -1,6 +1,6 @@
 {
   "name": "coursefinder",
-  "version": "0.0.1",
+  "version": "0.0.2",
   "description": "A Node.js scraper for UofT's Course Finder.",
   "keywords": [],
   "author": "Kashav Madan <kshvmdn@gmail.com> (http://kshvmdn.com)",
