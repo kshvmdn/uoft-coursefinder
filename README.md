@@ -1,6 +1,6 @@
 ## coursefinder [![npm version](https://badge.fury.io/js/coursefinder.svg)](https://badge.fury.io/js/coursefinder) [![Build Status](https://travis-ci.org/kshvmdn/uoft-coursefinder.svg?branch=master)](https://travis-ci.org/kshvmdn/uoft-coursefinder)
 
-A Node.js library for interfacing with UofT Course Finder.
+A Node.js library for interfacing with [Course Finder](http://coursefinder.utoronto.ca).
 
 ### Install
 
@@ -29,7 +29,7 @@ const coursefinder = require('coursefinder')
 ##### `search(term, cb)`
 
 - Retrieve top 20 results (PR for implemeting pagination would be very appreciated!) for the provided search term.
-- Supports both Promises and error-first callbacks, use whichever you prefer :smile:.
+- Supports both Promises and error-first callbacks, use whichever you prefer.
 
   ```js
   coursefinder.search('csc207', (err, res) => {
@@ -87,7 +87,7 @@ const coursefinder = require('coursefinder')
 
 - Retrieve data for the provided course code.
 - Parameter `code` can be retrieved from the [`course-search/search/courseInquiry`](http://coursefinder.utoronto.ca/course-search/search/courseInquiry?methodToCall=start&viewId=CourseDetails-InquiryView&courseId=CSC207H1F20169).
-- Supports both Promises and error-first callbacks, use whichever you prefer :smile:.
+- Supports both Promises and error-first callbacks, use whichever you prefer.
 
   ```js
   coursefinder.inquiry('CSC207H1F20169', (err, res) => {
@@ -295,7 +295,7 @@ const coursefinder = require('coursefinder')
 
 ### Contribute
 
-This project is completely open source. Feel free to [open an issue](https://github.com/kshvmdn/uoft-coursefinder/issues) or [submit a pull request](https://github.com/kshvmdn/uoft-coursefinder/pulls).
+This project is completely open source. Feel free to [open an issue](https://github.com/kshvmdn/uoft-coursefinder/issues) or [submit a pull request](https://github.com/kshvmdn/uoft-coursefinder/pulls). :smile:
 
 ### License
 
