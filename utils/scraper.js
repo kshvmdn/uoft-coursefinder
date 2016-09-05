@@ -70,6 +70,7 @@ function search (url, term, cb) {
     .type('form[action*="/courseSearch"] [name=searchQuery]', term)
     .click('form[action*="/courseSearch"] [id=searchForCourses]')
     .wait(1000)
+    .select('select[name=courseSearchResults_length]', '100')
     .evaluate(() => {
       let headings = Array.from(document.querySelectorAll('#courseSearchResults thead tr th'))
         .slice(1)
