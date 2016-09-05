@@ -1,5 +1,6 @@
 ## coursefinder [![npm version](https://badge.fury.io/js/coursefinder.svg)](https://badge.fury.io/js/coursefinder) [![Build Status](https://travis-ci.org/kshvmdn/uoft-coursefinder.svg?branch=master)](https://travis-ci.org/kshvmdn/uoft-coursefinder)
 
+A Node.js library for interfacing with UofT Course Finder.
 
 ### Install
 
