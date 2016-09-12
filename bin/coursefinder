@@ -1,17 +1,25 @@
 #!/usr/bin/env node
 
-const fs = require('fs')
-const path = require('path')
+const coursefinder = require('./../lib/')
 const prettyFormat = require('pretty-format')
 
 const argv = process.argv.slice(2)
-const coursefinder = require('./../')
-const help = new Promise((resolve, reject) => {
-  fs.readFile(path.join(__dirname, '..', 'help.txt'), 'utf8', (err, data) => {
-    if (err) return reject(err)
-    resolve(data)
-  })
-})
+const help = `
+  Usage:
+    coursefinder <method> <argument> [--pretty] [--show]
+
+  Arguments:
+    method         coursefinder method to call (one of search / inquiry) [must be first]
+    argument       term / code to use with function [must be second]
+    -h, --help     view this help dialog
+    -p, --pretty   pretty print the JSON response
+    -s, --show     render a browser window and watch the scraping in action
+
+  Examples:
+    coursefinder search CSC
+    coursefinder search CSC207 --pretty
+    coursefinder inquiry CSC207H1F20169 --show --pretty
+`
 
 /**
  * Print a string to the console, use prettyFormat if argv includes (-p|--pretty).
@@ -29,7 +37,8 @@ const handleErr = (err) => {
 }
 
 if (argv.includes('--help') || argv.includes('-h')) {
-  help.then(res => console.log(res)).catch(e => handleErr(e))
+  console.log(help)
+  process.exit(0)
 } else {
   let [func, arg] = argv
 
